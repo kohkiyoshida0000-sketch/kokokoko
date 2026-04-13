@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InkReserve Studio | タトゥー予約</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="container nav">
+        <a class="brand" href="#">InkReserve</a>
+        <div class="nav-links">
+          <a href="#artists">アーティスト</a>
+          <a href="#menu">料金目安</a>
+          <a href="#booking">予約</a>
+        </div>
+      </nav>
+
+      <div class="container hero-content">
+        <p class="eyebrow">PRIVATE TATTOO STUDIO / TOKYO</p>
+        <h1>一生残るデザインを、
+          <span>一生残る体験</span>に。</h1>
+        <p>
+          カウンセリング重視の完全予約制スタジオ。
+          施術部位・サイズ・予算に合わせて、最適なアーティストを提案します。
+        </p>
+        <a class="cta" href="#booking">無料カウンセリングを予約する</a>
+      </div>
+    </header>
+
+    <main>
+      <section id="artists" class="container section">
+        <div class="section-title">
+          <p>ARTISTS</p>
+          <h2>在籍アーティスト</h2>
+        </div>
+        <div class="grid cards-3">
+          <article class="card">
+            <h3>RIN</h3>
+            <p>Fine line / Botanical</p>
+            <small>繊細なラインと植物モチーフが得意。初めての方に人気。</small>
+          </article>
+          <article class="card">
+            <h3>KAI</h3>
+            <p>Black & Gray / Realism</p>
+            <small>陰影表現を活かしたリアリズム。ポートレート案件多数。</small>
+          </article>
+          <article class="card">
+            <h3>SHIN</h3>
+            <p>Japanese / Tribal</p>
+            <small>和彫りとトライバルを現代的に再構成したデザインが特徴。</small>
+          </article>
+        </div>
+      </section>
+
+      <section id="menu" class="container section">
+        <div class="section-title">
+          <p>PRICE GUIDE</p>
+          <h2>料金の目安</h2>
+        </div>
+        <div class="grid cards-3 price-grid">
+          <article class="card">
+            <h3>ワンポイント</h3>
+            <p class="price">¥12,000〜</p>
+            <small>5cm前後 / 1〜1.5h</small>
+          </article>
+          <article class="card">
+            <h3>ハガキサイズ</h3>
+            <p class="price">¥35,000〜</p>
+            <small>10〜15cm / 2〜4h</small>
+          </article>
+          <article class="card">
+            <h3>大判・複数回</h3>
+            <p class="price">¥80,000〜</p>
+            <small>複数セッション前提</small>
+          </article>
+        </div>
+      </section>
+
+      <section id="booking" class="container section booking-wrap">
+        <div class="section-title">
+          <p>BOOKING</p>
+          <h2>予約フォーム</h2>
+        </div>
+        <div class="grid booking-layout">
+          <section class="panel">
+            <form id="booking-form" class="form">
+              <label>お名前<input name="name" required maxlength="40" /></label>
+              <label>メール<input name="email" type="email" required /></label>
+              <label>電話番号<input name="phone" type="tel" required /></label>
+
+              <div class="split">
+                <label>希望日<input name="date" type="date" required /></label>
+                <label>希望時間
+                  <select name="timeSlot" required>
+                    <option value="">選択してください</option>
+                    <option>11:00〜13:00</option>
+                    <option>14:00〜16:00</option>
+                    <option>17:00〜19:00</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="split">
+                <label>スタイル
+                  <select name="style" required>
+                    <option value="">選択してください</option>
+                    <option>ワンポイント</option>
+                    <option>ブラック＆グレー</option>
+                    <option>トライバル</option>
+                    <option>和彫り</option>
+                    <option>持ち込みデザイン</option>
+                  </select>
+                </label>
+                <label>予算
+                  <select name="budget" required>
+                    <option value="">選択してください</option>
+                    <option>〜2万円</option>
+                    <option>2〜5万円</option>
+                    <option>5〜10万円</option>
+                    <option>10万円〜</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>施術希望部位<input name="placement" placeholder="例: 左前腕" required /></label>
+              <label>備考<textarea name="note" rows="4" maxlength="300" placeholder="サイズ・参考画像URLなど"></textarea></label>
+
+              <button type="submit">予約リクエストを送信</button>
+              <p id="form-message" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="panel">
+            <h3>予約リクエスト一覧</h3>
+            <p class="muted">※デモのため、このブラウザにのみ保存されます。</p>
+            <ul id="booking-list" class="booking-list"></ul>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container footer">
+      <p>© 2026 InkReserve Studio</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
