@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" role="img" aria-label="Ink Link logo">
+  <rect width="900" height="260" fill="transparent"/>
+  <g fill="#0b0b0b" stroke="#0b0b0b" stroke-linecap="round">
+    <text x="40" y="170" font-size="170" font-family="Brush Script MT, Segoe Script, cursive" font-weight="700">Ink Link</text>
+    <path d="M80 180 Q78 210 78 238" stroke-width="14"/>
+    <path d="M245 170 Q243 195 243 216" stroke-width="10"/>
+    <path d="M610 164 Q608 194 608 214" stroke-width="10"/>
+    <path d="M708 172 Q706 208 706 242" stroke-width="12"/>
+  </g>
+</svg>

@@ -3,96 +3,120 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>InkReserve Studio | タトゥー予約</title>
+    <title>Ink Link - Tattoo Booking Platform Demo</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
-    <header class="hero">
+  <body id="top">
+    <section id="splash-screen" class="splash-screen">
+      <div class="typing-wrap">
+        <p id="typing-text" class="typing-text"></p>
+        <button id="enter-site" type="button" class="enter-site" hidden>ホームページへ入る</button>
+      </div>
+    </section>
+    <header class="hero app-shell" hidden>
       <nav class="container nav">
-        <a class="brand" href="#">InkReserve</a>
+        <a class="brand" href="#top" aria-label="トップへ戻る">
+          <img src="assets/inklink-logo.svg" alt="Ink Link ロゴ" class="brand-logo" />
+        </a>
         <div class="nav-links">
-          <a href="#artists">アーティスト</a>
-          <a href="#menu">料金目安</a>
+          <a href="#artist-profile">彫り師登録</a>
           <a href="#booking">予約</a>
+          <a href="#ops">運用機能</a>
         </div>
       </nav>
 
       <div class="container hero-content">
-        <p class="eyebrow">PRIVATE TATTOO STUDIO / TOKYO</p>
-        <h1>一生残るデザインを、
-          <span>一生残る体験</span>に。</h1>
+        <p class="eyebrow">INK LINK / ARTIST × CUSTOMER</p>
+        <h1>予約・下絵・顧客管理を、
+          <span>1つの導線で。</span></h1>
         <p>
-          カウンセリング重視の完全予約制スタジオ。
-          施術部位・サイズ・予算に合わせて、最適なアーティストを提案します。
+          彫り師と顧客のイメージ共有、下絵進捗確認、ドタキャン対策、
+          フラッシュ販売までを想定した運用UIデモです。
         </p>
-        <a class="cta" href="#booking">無料カウンセリングを予約する</a>
+        <a class="cta" href="#booking">予約を作成する</a>
+        <img src="assets/inklink-logo.svg" alt="Ink Link" class="hero-logo" />
       </div>
     </header>
 
-    <main>
-      <section id="artists" class="container section">
+    <main class="app-shell" hidden>
+      <section id="artist-profile" class="container section booking-wrap">
         <div class="section-title">
-          <p>ARTISTS</p>
-          <h2>在籍アーティスト</h2>
+          <p>ARTIST PROFILE</p>
+          <h2>アーティストプロフィール登録</h2>
         </div>
-        <div class="grid cards-3">
-          <article class="card">
-            <h3>RIN</h3>
-            <p>Fine line / Botanical</p>
-            <small>繊細なラインと植物モチーフが得意。初めての方に人気。</small>
-          </article>
-          <article class="card">
-            <h3>KAI</h3>
-            <p>Black & Gray / Realism</p>
-            <small>陰影表現を活かしたリアリズム。ポートレート案件多数。</small>
-          </article>
-          <article class="card">
-            <h3>SHIN</h3>
-            <p>Japanese / Tribal</p>
-            <small>和彫りとトライバルを現代的に再構成したデザインが特徴。</small>
-          </article>
-        </div>
-      </section>
 
-      <section id="menu" class="container section">
-        <div class="section-title">
-          <p>PRICE GUIDE</p>
-          <h2>料金の目安</h2>
-        </div>
-        <div class="grid cards-3 price-grid">
-          <article class="card">
-            <h3>ワンポイント</h3>
-            <p class="price">¥12,000〜</p>
-            <small>5cm前後 / 1〜1.5h</small>
-          </article>
-          <article class="card">
-            <h3>ハガキサイズ</h3>
-            <p class="price">¥35,000〜</p>
-            <small>10〜15cm / 2〜4h</small>
-          </article>
-          <article class="card">
-            <h3>大判・複数回</h3>
-            <p class="price">¥80,000〜</p>
-            <small>複数セッション前提</small>
-          </article>
+        <div class="grid booking-layout">
+          <section class="panel">
+            <form id="artist-profile-form" class="form">
+              <label>アーティスト名<input name="artistName" required maxlength="60" /></label>
+              <label>studio名<input name="studioName" required maxlength="80" /></label>
+              <label>地域<input name="region" required maxlength="80" placeholder="例: 東京都渋谷区" /></label>
+              <label>最寄り駅（住所非公開向け）<input name="nearestStation" required maxlength="80" placeholder="例: 渋谷駅" /></label>
+              <label>一時間ごとの料金（円）<input name="hourlyRate" type="number" min="0" required placeholder="例: 15000" /></label>
+
+              <label>前借り制度対応
+                <select name="advanceSupport" required>
+                  <option value="">選択してください</option>
+                  <option value="対応可">対応可</option>
+                  <option value="要相談">要相談</option>
+                  <option value="対応不可">対応不可</option>
+                </select>
+              </label>
+
+              <label>プロフィール写真<input name="profileImage" type="file" accept="image/*" required /></label>
+              <label>作品写真（複数可）<input name="workImages" type="file" accept="image/*" multiple required /></label>
+
+              <div class="split">
+                <label>大まかな専門スタイル
+                  <select id="style-category" name="styleCategory" required>
+                    <option value="">選択してください</option>
+                  </select>
+                </label>
+                <label>細かい専門スタイル（複数選択可）
+                  <select id="style-detail" name="styleDetails" multiple required></select>
+                </label>
+              </div>
+
+              <label>Instagram URL<input name="instagram" type="url" placeholder="https://" /></label>
+              <label>TikTok URL<input name="tiktok" type="url" placeholder="https://" /></label>
+              <label>ホームページ URL<input name="website" type="url" placeholder="https://" /></label>
+              <label>その他SNS URL（カンマ区切り）<input name="otherSns" placeholder="https://x.com/..., https://youtube.com/..." /></label>
+
+              <button type="submit">プロフィールを登録</button>
+              <p id="artist-form-message" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="panel">
+            <h3>登録済みプロフィール（デモ）</h3>
+            <div class="inline-filters">
+              <input id="artist-search-keyword" placeholder="地域・駅名で検索" />
+              <input id="artist-search-max-rate" type="number" min="0" placeholder="時給上限（円）" />
+              <button id="artist-search-button" type="button">金額/地域で検索</button>
+              <button id="nearby-search-button" type="button">現在地から検索</button>
+            </div>
+            <p id="nearby-message" class="muted"></p>
+            <ul id="artist-profile-list" class="profile-list"></ul>
+          </section>
         </div>
       </section>
 
       <section id="booking" class="container section booking-wrap">
         <div class="section-title">
-          <p>BOOKING</p>
-          <h2>予約フォーム</h2>
+          <p>BOOKING FLOW</p>
+          <h2>予約・デザイン共有</h2>
         </div>
         <div class="grid booking-layout">
           <section class="panel">
             <form id="booking-form" class="form">
-              <label>お名前<input name="name" required maxlength="40" /></label>
+              <label>顧客名<input name="name" required maxlength="40" /></label>
               <label>メール<input name="email" type="email" required /></label>
               <label>電話番号<input name="phone" type="tel" required /></label>
+              <label>顧客SNS/DMハンドル<input name="dmHandle" placeholder="Instagram / LINE など" required /></label>
 
               <div class="split">
-                <label>希望日<input name="date" type="date" required /></label>
-                <label>希望時間
+                <label>予約日<input name="date" type="date" required /></label>
+                <label>予約時間
                   <select name="timeSlot" required>
                     <option value="">選択してください</option>
                     <option>11:00〜13:00</option>
@@ -106,10 +130,9 @@
                 <label>スタイル
                   <select name="style" required>
                     <option value="">選択してください</option>
-                    <option>ワンポイント</option>
-                    <option>ブラック＆グレー</option>
-                    <option>トライバル</option>
                     <option>和彫り</option>
+                    <option>ブラック＆グレー</option>
+                    <option>ワンポイント</option>
                     <option>持ち込みデザイン</option>
                   </select>
                 </label>
@@ -124,8 +147,16 @@
                 </label>
               </div>
 
+              <label>デザイン状況
+                <select name="designStage" required>
+                  <option value="">選択してください</option>
+                  <option value="完成デザインあり">完成デザインあり</option>
+                  <option value="これから相談">これから相談</option>
+                </select>
+              </label>
+              <label>参考デザインURL<input name="designUrl" type="url" placeholder="https://" /></label>
               <label>施術希望部位<input name="placement" placeholder="例: 左前腕" required /></label>
-              <label>備考<textarea name="note" rows="4" maxlength="300" placeholder="サイズ・参考画像URLなど"></textarea></label>
+              <label>希望施術時間（目安）<input name="preferredDuration" placeholder="例: 3時間" required /></label>
 
               <button type="submit">予約リクエストを送信</button>
               <p id="form-message" aria-live="polite"></p>
@@ -133,18 +164,168 @@
           </section>
 
           <section class="panel">
-            <h3>予約リクエスト一覧</h3>
-            <p class="muted">※デモのため、このブラウザにのみ保存されます。</p>
+            <h3>予約一覧（デモ）</h3>
+            <div class="inline-filters">
+              <input id="booking-search-date" type="date" />
+              <select id="booking-search-time">
+                <option value="">時間帯（全て）</option>
+                <option>11:00〜13:00</option>
+                <option>14:00〜16:00</option>
+                <option>17:00〜19:00</option>
+              </select>
+              <button id="booking-search-button" type="button">日付/時間で検索</button>
+            </div>
             <ul id="booking-list" class="booking-list"></ul>
           </section>
         </div>
       </section>
+
+
+      <section id="community" class="container section">
+        <div class="section-title">
+          <p>COMMUNITY</p>
+          <h2>フォロー / 投稿 / メンション</h2>
+        </div>
+
+        <div class="grid booking-layout">
+          <article class="panel">
+            <h3>プロフィール登録（ユーザー/アーティスト）</h3>
+            <form id="profile-form" class="form compact-form">
+              <label>種別
+                <select name="role" required>
+                  <option value="ユーザー">ユーザー</option>
+                  <option value="アーティスト">アーティスト</option>
+                </select>
+              </label>
+              <label>表示名<input name="displayName" required /></label>
+              <label>ハンドル（@なし）<input name="handle" required /></label>
+              <label>プロフィール画像URL<input name="avatarUrl" type="url" placeholder="https://" /></label>
+              <button type="submit">プロフィール登録</button>
+            </form>
+            <ul id="profile-list" class="profile-list"></ul>
+          </article>
+
+          <article class="panel">
+            <h3>投稿作成（宣伝/気持ち/作品）</h3>
+            <form id="post-form" class="form compact-form">
+              <label>投稿者ハンドル<input name="authorHandle" required placeholder="例: hori_kai" /></label>
+              <label>投稿テキスト<textarea name="content" rows="3" maxlength="220" required></textarea></label>
+              <label>作品画像URL（任意）<input name="imageUrl" type="url" placeholder="https://" /></label>
+              <label>メンション（カンマ区切り）<input name="mentions" placeholder="@hori_rin,@ink_user" /></label>
+              <button type="submit">投稿する</button>
+            </form>
+            <ul id="post-feed" class="profile-list"></ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="ops" class="container section">
+        <div class="section-title">
+          <p>OPERATIONS</p>
+          <h2>運用向け追加機能（デモUI）</h2>
+        </div>
+
+        <div class="grid ops-grid">
+          <article class="panel">
+            <h3>下絵3日前チェック</h3>
+            <p class="muted">予約3日前の案件を抽出し、下絵完成確認漏れを防ぐ。</p>
+            <ul id="design-reminder-list" class="booking-list"></ul>
+          </article>
+
+          <article class="panel">
+            <h3>前日顧客リスト</h3>
+            <p class="muted">明日の予約者一覧を自動表示（送信用の元データ）。</p>
+            <ul id="tomorrow-customer-list" class="booking-list"></ul>
+          </article>
+
+          <article class="panel">
+            <h3>ブラックリスト管理</h3>
+            <form id="blacklist-form" class="form compact-form">
+              <label>顧客名または連絡先<input name="customerKey" required /></label>
+              <label>理由<input name="reason" required /></label>
+              <button type="submit">ブラックリスト登録</button>
+            </form>
+            <ul id="blacklist-list" class="booking-list"></ul>
+          </article>
+
+          <article class="panel">
+            <h3>フラッシュ投稿・販売（手数料5%）</h3>
+            <form id="flash-form" class="form compact-form">
+              <label>タイトル<input name="title" required /></label>
+              <label>画像URL<input name="imageUrl" type="url" placeholder="https://" required /></label>
+              <label>販売価格（円）<input name="price" type="number" min="0" required /></label>
+              <button type="submit">出品する</button>
+            </form>
+            <ul id="flash-list" class="profile-list"></ul>
+          </article>
+
+          <article class="panel">
+            <h3>顧客・アーティスト カレンダー共有</h3>
+            <form id="calendar-form" class="form compact-form">
+              <label>顧客の希望日<input name="customerDate" type="date" required /></label>
+              <label>アーティスト空き日<input name="artistDate" type="date" required /></label>
+              <button type="submit">共有メモを追加</button>
+            </form>
+            <ul id="calendar-list" class="booking-list"></ul>
+          </article>
+
+
+          <article class="panel">
+            <h3>Stripe決済（デモ）</h3>
+            <p class="muted">月額プラン: ¥4,980 / 初月無料トライアル。</p>
+            <form id="coupon-form" class="form compact-form">
+              <label>クーポンコード<input name="couponCode" placeholder="クーポンを入力" /></label>
+              <button type="submit">クーポンを適用</button>
+              <p id="coupon-message" class="muted"></p>
+            </form>
+            <form id="payment-form" class="form compact-form">
+              <label>顧客メール<input name="customerEmail" type="email" required /></label>
+              <label>決済目的
+                <select name="paymentType" required>
+                  <option value="">選択してください</option>
+                  <option value="月額プラン">月額プラン</option>
+                  <option value="予約金">予約金</option>
+                  <option value="前借り支払い">前借り支払い</option>
+                  <option value="フラッシュ購入">フラッシュ購入</option>
+                </select>
+              </label>
+              <label>金額（円）<input name="amount" type="number" min="0" required value="4980" /></label>
+              <button type="submit">Stripe Checkoutを開始</button>
+              <p id="payment-message" class="muted"></p>
+            </form>
+            <ul id="payment-list" class="booking-list"></ul>
+          </article>
+
+          <article class="panel">
+            <h3>彫り師 ↔ 顧客 DM</h3>
+            <form id="dm-form" class="form compact-form">
+              <div class="split">
+                <label>送信者
+                  <select name="senderRole" required>
+                    <option value="顧客">顧客</option>
+                    <option value="彫り師">彫り師</option>
+                  </select>
+                </label>
+                <label>相手名<input name="targetName" required placeholder="例: 彫り師 KAI" /></label>
+              </div>
+              <label>メッセージ<input name="message" required maxlength="200" /></label>
+              <button type="submit">DM送信</button>
+            </form>
+            <ul id="dm-list" class="booking-list"></ul>
+          </article>
+        </div>
+      </section>
     </main>
 
-    <footer class="container footer">
-      <p>© 2026 InkReserve Studio</p>
+    <a href="#top" class="home-fab app-shell" aria-label="ホーム画面へ戻る" hidden>
+      <img src="assets/inklink-logo.svg" alt="ホームへ戻る" />
+    </a>
+
+    <footer class="container footer app-shell" hidden>
+      <p>© 2026 Ink Link Demo</p>
     </footer>
 
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="script.js"></script>
   </body>
 </html>
