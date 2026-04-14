@@ -12,7 +12,7 @@
         <a class="brand" href="#">墨景 / SUMIKAGE</a>
         <div class="nav-links">
           <a href="#artists">彫師</a>
-          <a href="#menu">料金</a>
+          <a href="#artist-profile">プロフィール登録</a>
           <a href="#booking">予約</a>
         </div>
       </nav>
@@ -51,6 +51,58 @@
             <p>和彫り / 伝統意匠</p>
             <small>伝統文様を現代の身体に合わせて再構成。</small>
           </article>
+        </div>
+      </section>
+
+      <section id="artist-profile" class="container section booking-wrap">
+        <div class="section-title">
+          <p>ARTIST PROFILE</p>
+          <h2>アーティストプロフィール登録</h2>
+        </div>
+
+        <div class="grid booking-layout">
+          <section class="panel">
+            <form id="artist-profile-form" class="form">
+              <label>アーティスト名<input name="artistName" required maxlength="60" /></label>
+              <label>studio名<input name="studioName" required maxlength="80" /></label>
+              <label>地域<input name="region" required maxlength="80" placeholder="例: 東京都渋谷区" /></label>
+              <label>一時間ごとの料金（円）<input name="hourlyRate" type="number" min="0" required placeholder="例: 15000" /></label>
+
+              <label>プロフィール写真
+                <input name="profileImage" type="file" accept="image/*" required />
+              </label>
+              <label>作品写真（複数可）
+                <input name="workImages" type="file" accept="image/*" multiple required />
+              </label>
+
+              <div class="split">
+                <label>大まかな専門スタイル
+                  <select id="style-category" name="styleCategory" required>
+                    <option value="">選択してください</option>
+                  </select>
+                </label>
+                <label>細かい専門スタイル（複数選択可）
+                  <select id="style-detail" name="styleDetails" multiple required></select>
+                </label>
+              </div>
+
+              <label>Instagram URL<input name="instagram" type="url" placeholder="https://" /></label>
+              <label>TikTok URL<input name="tiktok" type="url" placeholder="https://" /></label>
+              <label>ホームページ URL<input name="website" type="url" placeholder="https://" /></label>
+              <label>その他SNS URL（カンマ区切り）
+                <input name="otherSns" placeholder="https://x.com/..., https://youtube.com/..." />
+              </label>
+
+              <button type="submit">プロフィールを登録</button>
+              <p id="artist-form-message" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="panel">
+            <h3>登録済みプロフィール（デモ）</h3>
+            <p class="muted">※このブラウザのみに保存されます。</p>
+            <ul id="artist-profile-list" class="profile-list"></ul>
+          </section>
         </div>
       </section>
 
