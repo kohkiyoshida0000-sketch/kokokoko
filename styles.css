@@ -38,6 +38,19 @@ a { color: inherit; text-decoration: none; }
   font-family: "Courier New", monospace;
   letter-spacing: 0.03em;
   min-height: 1.5em;
+  white-space: nowrap;
+  animation: inklinkFlow 1.3s ease-out;
+}
+
+@keyframes inklinkFlow {
+  from {
+    opacity: 0;
+    transform: translateX(-90px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .enter-site {
