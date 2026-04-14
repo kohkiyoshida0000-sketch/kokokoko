@@ -1,0 +1,277 @@
+:root {
+  --bg: #050608;
+  --bg-soft: #0c0e13;
+  --ink: #10131b;
+  --line: #222839;
+  --text: #f2f4f8;
+  --muted: #9aa3b8;
+  --silver: #cfd7e8;
+  --accent: #7f8799;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+  font-family: "Noto Serif JP", "Hiragino Mincho ProN", serif;
+  background:
+    radial-gradient(circle at 85% 0%, rgba(130, 140, 165, 0.14), transparent 40%),
+    linear-gradient(160deg, var(--bg) 0%, #0a0c12 60%, var(--bg) 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: min(1120px, 92%);
+  margin: 0 auto;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -60deg,
+    rgba(255, 255, 255, 0.02) 0,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 14px
+  );
+  pointer-events: none;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.brand {
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.2rem;
+  color: var(--muted);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 5rem 0 4rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--silver);
+  letter-spacing: 0.14em;
+  font-size: 0.76rem;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+h1 {
+  margin: 0.6rem 0 1rem;
+  line-height: 1.25;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  max-width: 17ch;
+}
+
+h1 span {
+  color: var(--silver);
+}
+
+.hero-content p {
+  color: var(--muted);
+  max-width: 56ch;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.cta {
+  margin-top: 1.3rem;
+  display: inline-block;
+  border: 1px solid #4a5266;
+  padding: 0.82rem 1.2rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1a1f2b, #2a3142);
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.section {
+  padding: 2.3rem 0;
+}
+
+.section-title p {
+  margin: 0;
+  color: var(--silver);
+  letter-spacing: 0.12em;
+  font-size: 0.76rem;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.section-title h2 {
+  margin: 0.35rem 0 1rem;
+  font-size: 1.9rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.cards-3 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.card,
+.panel {
+  background: linear-gradient(180deg, rgba(18, 21, 31, 0.95), rgba(11, 13, 19, 0.96));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.card h3,
+.panel h3 {
+  margin: 0;
+  font-size: 1.08rem;
+}
+
+.card p {
+  margin: 0.4rem 0;
+  color: var(--muted);
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.card small {
+  color: #8f98ad;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.price {
+  color: var(--silver) !important;
+  font-size: 1.42rem;
+  font-weight: 700;
+}
+
+.booking-layout {
+  grid-template-columns: 1.2fr 1fr;
+}
+
+.form label {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.92rem;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.split {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+input,
+select,
+textarea,
+button {
+  border-radius: 10px;
+  border: 1px solid #2f374d;
+  padding: 0.62rem 0.72rem;
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  background: var(--ink);
+  color: var(--text);
+}
+
+button {
+  margin-top: 0.35rem;
+  width: 100%;
+  background: linear-gradient(90deg, #212839, #36415a);
+  color: #edf0f6;
+  border: 1px solid #4b576f;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(1.08);
+}
+
+#form-message,
+.muted,
+.booking-item p {
+  color: var(--muted);
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.booking-list {
+  list-style: none;
+  margin: 0.8rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.booking-item {
+  border: 1px solid #2e364a;
+  border-radius: 10px;
+  padding: 0.74rem;
+  background: #0b0e15;
+}
+
+.booking-item h4 {
+  margin: 0;
+  font-size: 0.96rem;
+}
+
+.footer {
+  padding: 1.2rem 0 2rem;
+  color: var(--muted);
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+@media (max-width: 900px) {
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .split {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content {
+    padding: 2.6rem 0 2.8rem;
+  }
+}

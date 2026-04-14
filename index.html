@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>墨景 - Sumikage Tattoo Reserve</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="container nav">
+        <a class="brand" href="#">墨景 / SUMIKAGE</a>
+        <div class="nav-links">
+          <a href="#artists">彫師</a>
+          <a href="#menu">料金</a>
+          <a href="#booking">予約</a>
+        </div>
+      </nav>
+
+      <div class="container hero-content">
+        <p class="eyebrow">JAPANESE PRIVATE TATTOO STUDIO</p>
+        <h1>静けさの中に、
+          <span>凛とした墨</span>を刻む。</h1>
+        <p>
+          和の美意識と現代のクリーンな技術を融合した、完全予約制スタジオ。
+          初回は丁寧なカウンセリングからご案内します。
+        </p>
+        <a class="cta" href="#booking">ご相談・予約はこちら</a>
+      </div>
+    </header>
+
+    <main>
+      <section id="artists" class="container section">
+        <div class="section-title">
+          <p>HORISHI</p>
+          <h2>在籍彫師</h2>
+        </div>
+        <div class="grid cards-3">
+          <article class="card">
+            <h3>彫 凛</h3>
+            <p>細密線 / 草花文様</p>
+            <small>繊細な線と余白を活かした上品な作風。</small>
+          </article>
+          <article class="card">
+            <h3>彫 海</h3>
+            <p>黒灰 / 写実</p>
+            <small>陰影の深さで魅せる、静かなリアリズム。</small>
+          </article>
+          <article class="card">
+            <h3>彫 眞</h3>
+            <p>和彫り / 伝統意匠</p>
+            <small>伝統文様を現代の身体に合わせて再構成。</small>
+          </article>
+        </div>
+      </section>
+
+      <section id="menu" class="container section">
+        <div class="section-title">
+          <p>PRICE</p>
+          <h2>料金目安</h2>
+        </div>
+        <div class="grid cards-3">
+          <article class="card">
+            <h3>小作品</h3>
+            <p class="price">¥15,000〜</p>
+            <small>5cm前後 / 1〜1.5時間</small>
+          </article>
+          <article class="card">
+            <h3>中作品</h3>
+            <p class="price">¥40,000〜</p>
+            <small>10〜15cm / 2〜4時間</small>
+          </article>
+          <article class="card">
+            <h3>大作品</h3>
+            <p class="price">¥90,000〜</p>
+            <small>複数セッション / 要相談</small>
+          </article>
+        </div>
+      </section>
+
+      <section id="booking" class="container section booking-wrap">
+        <div class="section-title">
+          <p>RESERVATION</p>
+          <h2>予約フォーム</h2>
+        </div>
+        <div class="grid booking-layout">
+          <section class="panel">
+            <form id="booking-form" class="form">
+              <label>お名前<input name="name" required maxlength="40" /></label>
+              <label>メール<input name="email" type="email" required /></label>
+              <label>電話番号<input name="phone" type="tel" required /></label>
+
+              <div class="split">
+                <label>希望日<input name="date" type="date" required /></label>
+                <label>希望時間
+                  <select name="timeSlot" required>
+                    <option value="">選択してください</option>
+                    <option>11:00〜13:00</option>
+                    <option>14:00〜16:00</option>
+                    <option>17:00〜19:00</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="split">
+                <label>スタイル
+                  <select name="style" required>
+                    <option value="">選択してください</option>
+                    <option>和彫り</option>
+                    <option>ブラック＆グレー</option>
+                    <option>ワンポイント</option>
+                    <option>持ち込みデザイン</option>
+                  </select>
+                </label>
+                <label>予算
+                  <select name="budget" required>
+                    <option value="">選択してください</option>
+                    <option>〜2万円</option>
+                    <option>2〜5万円</option>
+                    <option>5〜10万円</option>
+                    <option>10万円〜</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>施術希望部位<input name="placement" placeholder="例: 左前腕" required /></label>
+              <label>備考<textarea name="note" rows="4" maxlength="300" placeholder="サイズ・参考画像URLなど"></textarea></label>
+
+              <button type="submit">予約リクエストを送信</button>
+              <p id="form-message" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="panel">
+            <h3>予約リクエスト一覧</h3>
+            <p class="muted">※デモのため、このブラウザのみに保存されます。</p>
+            <ul id="booking-list" class="booking-list"></ul>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container footer">
+      <p>© 2026 墨景 SUMIKAGE</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
