@@ -8,6 +8,7 @@ const DM_STORAGE_KEY = "inkreserve_dm_v1";
 const PROFILE_STORAGE_KEY = "inkreserve_profiles_v1";
 const POST_STORAGE_KEY = "inkreserve_posts_v1";
 const FOLLOW_STORAGE_KEY = "inkreserve_follows_v1";
+const COUPON_STORAGE_KEY = "inkreserve_coupon_v1";
 
 const bookingForm = document.getElementById("booking-form");
 const bookingList = document.getElementById("booking-list");
@@ -44,6 +45,8 @@ const calendarList = document.getElementById("calendar-list");
 const paymentForm = document.getElementById("payment-form");
 const paymentMessage = document.getElementById("payment-message");
 const paymentList = document.getElementById("payment-list");
+const couponForm = document.getElementById("coupon-form");
+const couponMessage = document.getElementById("coupon-message");
 
 const dmForm = document.getElementById("dm-form");
 const dmList = document.getElementById("dm-list");
@@ -95,6 +98,32 @@ const toDataUrl = (file) =>
 
 const toDate = (dateText) => new Date(`${dateText}T00:00:00`);
 const diffDays = (from, to) => Math.floor((to - from) / (1000 * 60 * 60 * 24));
+
+const normalizeCouponCode = (code) =>
+  code
+    .replace(/[０-９]/g, (char) => String.fromCharCode(char.charCodeAt(0) - 65248))
+    .replace(/\s+/g, "")
+    .toUpperCase();
+
+const applyCouponUIState = () => {
+  const couponState = localStorage.getItem(COUPON_STORAGE_KEY) === "applied";
+  const amountInput = paymentForm.querySelector('input[name="amount"]');
+  if (!amountInput) {
+    return;
+  }
+
+  if (couponState) {
+    amountInput.value = "0";
+    amountInput.readOnly = true;
+    couponMessage.textContent = "クーポン適用済みです。";
+  } else {
+    if (!amountInput.value || amountInput.value === "0") {
+      amountInput.value = "4980";
+    }
+    amountInput.readOnly = false;
+  }
+};
+
 
 const initializeStyleCategory = () => {
   Object.keys(STYLE_MAP).forEach((category) => {
@@ -514,26 +543,40 @@ calendarForm.addEventListener("submit", (event) => {
   saveJSON(CALENDAR_STORAGE_KEY, list);
   calendarForm.reset();
   renderCalendar();
-renderPayments();
-renderDMs();
-renderProfiles();
-renderPosts();
-initializeSplash();
 });
 
+
+
+couponForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(couponForm);
+  const inputCode = formData.get("couponCode")?.toString() ?? "";
+  const normalized = normalizeCouponCode(inputCode);
+
+  if (normalized === "GARAGE1717") {
+    localStorage.setItem(COUPON_STORAGE_KEY, "applied");
+    couponMessage.textContent = "クーポンを適用しました。";
+    applyCouponUIState();
+  } else {
+    couponMessage.textContent = "クーポンコードが正しくありません。";
+  }
+});
 
 paymentForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const formData = new FormData(paymentForm);
+  const couponApplied = localStorage.getItem(COUPON_STORAGE_KEY) === "applied";
+  const requestedAmount = Number(formData.get("amount")?.toString());
+
   const payment = {
     customerEmail: formData.get("customerEmail")?.toString().trim(),
     paymentType: formData.get("paymentType")?.toString(),
-    amount: Number(formData.get("amount")?.toString()),
+    amount: couponApplied && formData.get("paymentType")?.toString() === "月額プラン" ? 0 : requestedAmount,
     status: "処理中",
     createdAt: new Date().toLocaleString("ja-JP")
   };
 
-  if (!payment.customerEmail || !payment.paymentType || !payment.amount) {
+  if (!payment.customerEmail || !payment.paymentType || (payment.amount < 0 || Number.isNaN(payment.amount))) {
     paymentMessage.textContent = "決済情報を入力してください。";
     return;
   }
@@ -558,7 +601,7 @@ paymentForm.addEventListener("submit", async (event) => {
     });
   } else {
     payment.status = "デモ決済完了";
-    paymentMessage.textContent = "Stripe公開鍵未設定のため、デモ決済として保存しました。";
+    paymentMessage.textContent = payment.amount === 0 ? "クーポン適用により0円で登録しました。" : "Stripe公開鍵未設定のため、デモ決済として保存しました。";
   }
 
   const list = getJSON(PAYMENT_STORAGE_KEY);
@@ -587,9 +630,6 @@ dmForm.addEventListener("submit", (event) => {
   saveJSON(DM_STORAGE_KEY, list);
   dmForm.reset();
   renderDMs();
-renderProfiles();
-renderPosts();
-initializeSplash();
 });
 
 
@@ -647,6 +687,7 @@ postForm.addEventListener("submit", (event) => {
 styleCategorySelect.addEventListener("change", updateStyleDetails);
 
 initializeStyleCategory();
+applyCouponUIState();
 renderBookings();
 renderArtistProfiles();
 renderDesignReminders();

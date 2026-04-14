@@ -272,18 +272,24 @@
 
           <article class="panel">
             <h3>Stripe決済（デモ）</h3>
-            <p class="muted">前金・予約金の決済を想定。公開鍵を設定すればCheckout連携可能。</p>
+            <p class="muted">月額プラン: ¥4,980 / 初月無料トライアル。</p>
+            <form id="coupon-form" class="form compact-form">
+              <label>クーポンコード<input name="couponCode" placeholder="クーポンを入力" /></label>
+              <button type="submit">クーポンを適用</button>
+              <p id="coupon-message" class="muted"></p>
+            </form>
             <form id="payment-form" class="form compact-form">
               <label>顧客メール<input name="customerEmail" type="email" required /></label>
               <label>決済目的
                 <select name="paymentType" required>
                   <option value="">選択してください</option>
+                  <option value="月額プラン">月額プラン</option>
                   <option value="予約金">予約金</option>
                   <option value="前借り支払い">前借り支払い</option>
                   <option value="フラッシュ購入">フラッシュ購入</option>
                 </select>
               </label>
-              <label>金額（円）<input name="amount" type="number" min="50" required /></label>
+              <label>金額（円）<input name="amount" type="number" min="0" required value="4980" /></label>
               <button type="submit">Stripe Checkoutを開始</button>
               <p id="payment-message" class="muted"></p>
             </form>
