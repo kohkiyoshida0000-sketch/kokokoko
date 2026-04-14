@@ -6,10 +6,12 @@
     <title>墨景 - Sumikage Tattoo Reserve</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body id="top">
     <header class="hero">
       <nav class="container nav">
-        <a class="brand" href="#">墨景 / SUMIKAGE</a>
+        <a class="brand" href="#top" aria-label="トップへ戻る">
+          <img src="assets/inklink-logo.svg" alt="Ink Link ロゴ" class="brand-logo" />
+        </a>
         <div class="nav-links">
           <a href="#artists">彫師</a>
           <a href="#artist-profile">プロフィール登録</a>
@@ -26,6 +28,7 @@
           初回は丁寧なカウンセリングからご案内します。
         </p>
         <a class="cta" href="#booking">ご相談・予約はこちら</a>
+        <img src="assets/inklink-logo.svg" alt="Ink Link" class="hero-logo" />
       </div>
     </header>
 
@@ -191,6 +194,10 @@
         </div>
       </section>
     </main>
+
+    <a href="#top" class="home-fab" aria-label="ホーム画面へ戻る">
+      <img src="assets/inklink-logo.svg" alt="ホームへ戻る" />
+    </a>
 
     <footer class="container footer">
       <p>© 2026 墨景 SUMIKAGE</p>
