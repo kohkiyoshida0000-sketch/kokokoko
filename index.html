@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>InkLink</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <a class="logo" href="#" data-target="home">
+          <img src="assets/inklink-logo.svg" alt="InkLink" />
+        </a>
+        <nav class="menu">
+          <button data-target="artists" class="menu-btn">アーティスト</button>
+          <button data-target="genres" class="menu-btn">ジャンル</button>
+          <button data-target="gallery" class="menu-btn">ギャラリー</button>
+          <button data-target="search" class="menu-btn">検索</button>
+          <button data-target="messages" class="menu-btn">メッセージ</button>
+          <button data-target="mypage" class="menu-btn">マイページ</button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="home" class="view active">
+        <div class="hero-bg"></div>
+        <div class="hero-center">
+          <div class="hero-card">
+            <img src="assets/inklink-logo.svg" alt="InkLink ロゴ" class="hero-logo" />
+          </div>
+          <h1 id="welcome-text">ようこそ INKLINK へ</h1>
+          <p>彫り師を探す・予約する・繋がる</p>
+          <form class="search-row">
+            <input placeholder="ジャンル、アーティスト名..." />
+            <input placeholder="地域..." />
+            <button type="button">SEARCH</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="artists" class="view container">
+        <div class="section-head">
+          <p>FEATURED</p><h2>ARTISTS</h2>
+        </div>
+        <div class="cards two">
+          <article class="artist-card">
+            <div class="thumb thumb-a" aria-label="artist image"></div>
+            <div class="meta">
+              <h3>KOHKI YOSHIDA</h3>
+              <p>東京都 / ワンポイント</p>
+              <strong>¥10,000/時間〜</strong>
+            </div>
+          </article>
+          <article class="artist-card">
+            <div class="thumb thumb-b" aria-label="artist image"></div>
+            <div class="meta">
+              <h3>笑</h3>
+              <p>東京都 / 水彩・ホラー</p>
+              <strong>¥12,000/時間〜</strong>
+            </div>
+          </article>
+        </div>
+        <section class="join">
+          <p>FOR ARTISTS</p>
+          <h2>JOIN INK LINK</h2>
+          <button>アーティスト登録はこちら</button>
+        </section>
+      </section>
+
+      <section id="genres" class="view container">
+        <div class="section-head">
+          <h2>タトゥージャンル</h2>
+          <p>お好みのスタイルを選んで専門アーティストを探しましょう</p>
+        </div>
+        <div class="genre-grid">
+          <article class="genre-item g1"><h3>ワンポイント</h3><span>One Point</span></article>
+          <article class="genre-item g2"><h3>ブラック&グレー</h3><span>Black & Grey</span></article>
+          <article class="genre-item g3"><h3>リアル（写実）</h3><span>Realism</span></article>
+          <article class="genre-item g4"><h3>レタリング</h3><span>Lettering</span></article>
+          <article class="genre-item g5"><h3>カラー</h3><span>Color</span></article>
+          <article class="genre-item g6"><h3>アメリカントラディショナル</h3><span>American Traditional</span></article>
+          <article class="genre-item g7"><h3>和彫り</h3><span>Japanese Traditional</span></article>
+        </div>
+      </section>
+
+      <section id="gallery" class="view container slim">
+        <div class="section-head"><h2>ギャラリー</h2><p>アーティストたちの作品を閲覧</p></div>
+        <p class="muted-center">まだ作品が投稿されていません</p>
+      </section>
+
+      <section id="search" class="view container slim">
+        <div class="section-head"><h2>検索</h2></div>
+        <form class="search-row">
+          <input placeholder="アーティスト名・ジャンル" />
+          <input placeholder="地域" />
+          <button type="button">検索</button>
+        </form>
+      </section>
+
+      <section id="messages" class="view container slim">
+        <div class="section-head"><h2>メッセージ</h2></div>
+        <div class="split-pane">
+          <aside>メッセージはまだありません</aside>
+          <article>会話を選択してください</article>
+        </div>
+      </section>
+
+      <section id="mypage" class="view container slim">
+        <div class="section-head"><h2>マイページ</h2></div>
+        <div class="split-pane">
+          <aside>
+            <p>プロフィール</p><p>予約履歴</p><p>お気に入り</p><p>設定</p>
+          </aside>
+          <article>
+            <h3>プロフィール</h3>
+            <p>名前: ユーザー</p>
+            <p>アカウント種別: ユーザー</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container foot-grid">
+        <div><h4>INKLINK</h4><p>あなたにぴったりのタトゥーアーティストを見つけよう</p></div>
+        <div><h4>サービス</h4><p>料金プラン</p><p>アーティスト一覧</p><p>ジャンルから探す</p></div>
+        <div><h4>サポート</h4><p>お問い合わせ</p><p>広告掲載</p></div>
+        <div><h4>法的情報</h4><p>利用規約</p><p>プライバシーポリシー</p></div>
+      </div>
+      <small>© 2026 InkLink. All rights reserved.</small>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
