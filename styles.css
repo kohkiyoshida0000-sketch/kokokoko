@@ -20,6 +20,59 @@ body {
 }
 
 a { color: inherit; text-decoration: none; }
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  z-index: 200;
+}
+
+.typing-wrap { text-align: center; }
+.typing-text {
+  margin: 0;
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  font-family: "Courier New", monospace;
+  letter-spacing: 0.03em;
+  min-height: 1.5em;
+}
+
+.enter-site {
+  margin-top: 1.2rem;
+  width: auto;
+  padding: 0.7rem 1rem;
+}
+
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid #425172;
+}
+
+.status-text {
+  margin-top: 0.2rem;
+  font-size: 0.83rem;
+}
+
+.mention {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid #4c5a7c;
+  font-size: 0.74rem;
+}
+
 .container { width: min(1120px, 92%); margin: 0 auto; }
 
 .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }

@@ -5,6 +5,9 @@ const FLASH_STORAGE_KEY = "inkreserve_flash_v1";
 const CALENDAR_STORAGE_KEY = "inkreserve_calendar_v1";
 const PAYMENT_STORAGE_KEY = "inkreserve_payments_v1";
 const DM_STORAGE_KEY = "inkreserve_dm_v1";
+const PROFILE_STORAGE_KEY = "inkreserve_profiles_v1";
+const POST_STORAGE_KEY = "inkreserve_posts_v1";
+const FOLLOW_STORAGE_KEY = "inkreserve_follows_v1";
 
 const bookingForm = document.getElementById("booking-form");
 const bookingList = document.getElementById("booking-list");
@@ -44,6 +47,16 @@ const paymentList = document.getElementById("payment-list");
 
 const dmForm = document.getElementById("dm-form");
 const dmList = document.getElementById("dm-list");
+
+const splashScreen = document.getElementById("splash-screen");
+const typingText = document.getElementById("typing-text");
+const enterSiteButton = document.getElementById("enter-site");
+const appShell = document.querySelectorAll(".app-shell");
+
+const profileForm = document.getElementById("profile-form");
+const profileList = document.getElementById("profile-list");
+const postForm = document.getElementById("post-form");
+const postFeed = document.getElementById("post-feed");
 
 const STYLE_MAP = {
   "基本スタイル": ["ワンポイント", "ミニタトゥー", "スモールタトゥー", "ミディアムタトゥー", "ラージタトゥー", "フルスリーブ", "ハーフスリーブ", "バックピース", "チェストピース"],
@@ -234,6 +247,90 @@ const renderDMs = () => {
     : "<li class='muted'>DM履歴はありません。</li>";
 };
 
+
+const renderProfiles = () => {
+  const profiles = getJSON(PROFILE_STORAGE_KEY);
+  const posts = getJSON(POST_STORAGE_KEY);
+  const follows = getJSON(FOLLOW_STORAGE_KEY);
+
+  if (!profiles.length) {
+    profileList.innerHTML = "<li class='muted'>プロフィール登録はまだありません。</li>";
+    return;
+  }
+
+  const activeHandle = localStorage.getItem("inklink_active_handle") || profiles[0].handle;
+
+  profileList.innerHTML = profiles
+    .map((profile) => {
+      const latestPost = posts.find((post) => post.authorHandle === profile.handle);
+      const isFollowing = follows.some((item) => item.follower === activeHandle && item.target === profile.handle);
+      return `
+      <li class="artist-card">
+        <div class="profile-head">
+          <img class="avatar" src="${profile.avatarUrl || "https://placehold.co/80x80?text=INK"}" alt="${profile.displayName}" />
+          <div>
+            <h4>${profile.displayName} <small>@${profile.handle}</small></h4>
+            <p>${profile.role}</p>
+            <p class="status-text">${latestPost ? latestPost.content : "まだ投稿はありません"}</p>
+          </div>
+        </div>
+        <button type="button" class="follow-btn" data-target="${profile.handle}">${isFollowing ? "フォロー中" : "フォロー"}</button>
+      </li>`;
+    })
+    .join("");
+
+  document.querySelectorAll(".follow-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = button.dataset.target;
+      if (!target || target === activeHandle) {
+        return;
+      }
+      const list = getJSON(FOLLOW_STORAGE_KEY);
+      const exists = list.find((item) => item.follower === activeHandle && item.target === target);
+      const next = exists ? list.filter((item) => !(item.follower === activeHandle && item.target === target)) : [...list, { follower: activeHandle, target }];
+      saveJSON(FOLLOW_STORAGE_KEY, next);
+      renderProfiles();
+    });
+  });
+};
+
+const renderPosts = () => {
+  const posts = getJSON(POST_STORAGE_KEY);
+  postFeed.innerHTML = posts.length
+    ? posts
+        .map(
+          (post) => `
+      <li class="artist-card">
+        <p><strong>@${post.authorHandle}</strong> ・ ${post.createdAt}</p>
+        <p>${post.content}</p>
+        ${post.imageUrl ? `<img class="profile-image" src="${post.imageUrl}" alt="投稿画像" />` : ""}
+        ${post.mentions.length ? `<p>メンション: ${post.mentions.map((m) => `<span class="mention">${m}</span>`).join(" ")}</p>` : ""}
+      </li>`
+        )
+        .join("")
+    : "<li class='muted'>投稿はまだありません。</li>";
+};
+
+const initializeSplash = () => {
+  const phrase = "Welcome to InkLink";
+  let index = 0;
+  const timer = setInterval(() => {
+    typingText.textContent += phrase[index];
+    index += 1;
+    if (index >= phrase.length) {
+      clearInterval(timer);
+      enterSiteButton.hidden = false;
+    }
+  }, 90);
+
+  enterSiteButton.addEventListener("click", () => {
+    splashScreen.style.display = "none";
+    appShell.forEach((item) => {
+      item.hidden = false;
+    });
+  });
+};
+
 bookingForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const formData = new FormData(bookingForm);
@@ -419,6 +516,9 @@ calendarForm.addEventListener("submit", (event) => {
   renderCalendar();
 renderPayments();
 renderDMs();
+renderProfiles();
+renderPosts();
+initializeSplash();
 });
 
 
@@ -487,6 +587,61 @@ dmForm.addEventListener("submit", (event) => {
   saveJSON(DM_STORAGE_KEY, list);
   dmForm.reset();
   renderDMs();
+renderProfiles();
+renderPosts();
+initializeSplash();
+});
+
+
+profileForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(profileForm);
+  const profile = {
+    role: formData.get("role")?.toString(),
+    displayName: formData.get("displayName")?.toString().trim(),
+    handle: formData.get("handle")?.toString().replace(/^@/, "").trim(),
+    avatarUrl: formData.get("avatarUrl")?.toString().trim()
+  };
+
+  if (!profile.role || !profile.displayName || !profile.handle) {
+    return;
+  }
+
+  const list = getJSON(PROFILE_STORAGE_KEY).filter((item) => item.handle !== profile.handle);
+  list.unshift(profile);
+  saveJSON(PROFILE_STORAGE_KEY, list);
+  localStorage.setItem("inklink_active_handle", profile.handle);
+  profileForm.reset();
+  renderProfiles();
+  renderPosts();
+});
+
+postForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(postForm);
+  const post = {
+    authorHandle: formData.get("authorHandle")?.toString().replace(/^@/, "").trim(),
+    content: formData.get("content")?.toString().trim(),
+    imageUrl: formData.get("imageUrl")?.toString().trim(),
+    mentions: formData
+      .get("mentions")
+      ?.toString()
+      .split(",")
+      .map((mention) => mention.trim())
+      .filter(Boolean) ?? [],
+    createdAt: new Date().toLocaleString("ja-JP")
+  };
+
+  if (!post.authorHandle || !post.content) {
+    return;
+  }
+
+  const list = getJSON(POST_STORAGE_KEY);
+  list.unshift(post);
+  saveJSON(POST_STORAGE_KEY, list);
+  postForm.reset();
+  renderPosts();
+  renderProfiles();
 });
 
 styleCategorySelect.addEventListener("change", updateStyleDetails);
@@ -501,3 +656,6 @@ renderFlash();
 renderCalendar();
 renderPayments();
 renderDMs();
+renderProfiles();
+renderPosts();
+initializeSplash();

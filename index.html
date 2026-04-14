@@ -7,7 +7,13 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body id="top">
-    <header class="hero">
+    <section id="splash-screen" class="splash-screen">
+      <div class="typing-wrap">
+        <p id="typing-text" class="typing-text"></p>
+        <button id="enter-site" type="button" class="enter-site" hidden>ホームページへ入る</button>
+      </div>
+    </section>
+    <header class="hero app-shell" hidden>
       <nav class="container nav">
         <a class="brand" href="#top" aria-label="トップへ戻る">
           <img src="assets/inklink-logo.svg" alt="Ink Link ロゴ" class="brand-logo" />
@@ -32,7 +38,7 @@
       </div>
     </header>
 
-    <main>
+    <main class="app-shell" hidden>
       <section id="artist-profile" class="container section booking-wrap">
         <div class="section-title">
           <p>ARTIST PROFILE</p>
@@ -174,6 +180,45 @@
         </div>
       </section>
 
+
+      <section id="community" class="container section">
+        <div class="section-title">
+          <p>COMMUNITY</p>
+          <h2>フォロー / 投稿 / メンション</h2>
+        </div>
+
+        <div class="grid booking-layout">
+          <article class="panel">
+            <h3>プロフィール登録（ユーザー/アーティスト）</h3>
+            <form id="profile-form" class="form compact-form">
+              <label>種別
+                <select name="role" required>
+                  <option value="ユーザー">ユーザー</option>
+                  <option value="アーティスト">アーティスト</option>
+                </select>
+              </label>
+              <label>表示名<input name="displayName" required /></label>
+              <label>ハンドル（@なし）<input name="handle" required /></label>
+              <label>プロフィール画像URL<input name="avatarUrl" type="url" placeholder="https://" /></label>
+              <button type="submit">プロフィール登録</button>
+            </form>
+            <ul id="profile-list" class="profile-list"></ul>
+          </article>
+
+          <article class="panel">
+            <h3>投稿作成（宣伝/気持ち/作品）</h3>
+            <form id="post-form" class="form compact-form">
+              <label>投稿者ハンドル<input name="authorHandle" required placeholder="例: hori_kai" /></label>
+              <label>投稿テキスト<textarea name="content" rows="3" maxlength="220" required></textarea></label>
+              <label>作品画像URL（任意）<input name="imageUrl" type="url" placeholder="https://" /></label>
+              <label>メンション（カンマ区切り）<input name="mentions" placeholder="@hori_rin,@ink_user" /></label>
+              <button type="submit">投稿する</button>
+            </form>
+            <ul id="post-feed" class="profile-list"></ul>
+          </article>
+        </div>
+      </section>
+
       <section id="ops" class="container section">
         <div class="section-title">
           <p>OPERATIONS</p>
@@ -266,11 +311,11 @@
       </section>
     </main>
 
-    <a href="#top" class="home-fab" aria-label="ホーム画面へ戻る">
+    <a href="#top" class="home-fab app-shell" aria-label="ホーム画面へ戻る" hidden>
       <img src="assets/inklink-logo.svg" alt="ホームへ戻る" />
     </a>
 
-    <footer class="container footer">
+    <footer class="container footer app-shell" hidden>
       <p>© 2026 Ink Link Demo</p>
     </footer>
 
