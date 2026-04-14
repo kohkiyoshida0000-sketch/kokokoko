@@ -3,6 +3,8 @@ const ARTIST_STORAGE_KEY = "inkreserve_artist_profiles_v2";
 const BLACKLIST_STORAGE_KEY = "inkreserve_blacklist_v1";
 const FLASH_STORAGE_KEY = "inkreserve_flash_v1";
 const CALENDAR_STORAGE_KEY = "inkreserve_calendar_v1";
+const PAYMENT_STORAGE_KEY = "inkreserve_payments_v1";
+const DM_STORAGE_KEY = "inkreserve_dm_v1";
 
 const bookingForm = document.getElementById("booking-form");
 const bookingList = document.getElementById("booking-list");
@@ -35,6 +37,13 @@ const flashList = document.getElementById("flash-list");
 
 const calendarForm = document.getElementById("calendar-form");
 const calendarList = document.getElementById("calendar-list");
+
+const paymentForm = document.getElementById("payment-form");
+const paymentMessage = document.getElementById("payment-message");
+const paymentList = document.getElementById("payment-list");
+
+const dmForm = document.getElementById("dm-form");
+const dmList = document.getElementById("dm-list");
 
 const STYLE_MAP = {
   "基本スタイル": ["ワンポイント", "ミニタトゥー", "スモールタトゥー", "ミディアムタトゥー", "ラージタトゥー", "フルスリーブ", "ハーフスリーブ", "バックピース", "チェストピース"],
@@ -208,6 +217,21 @@ const renderCalendar = () => {
   calendarList.innerHTML = list.length
     ? list.map((item) => `<li class="booking-item"><p>顧客希望: ${item.customerDate} / アーティスト空き: ${item.artistDate}</p></li>`).join("")
     : "<li class='muted'>カレンダー共有メモはありません。</li>";
+};
+
+
+const renderPayments = () => {
+  const list = getJSON(PAYMENT_STORAGE_KEY);
+  paymentList.innerHTML = list.length
+    ? list.map((item) => `<li class="booking-item"><p>${item.createdAt} / ${item.customerEmail} / ${item.paymentType} / ¥${Number(item.amount).toLocaleString()} / ${item.status}</p></li>`).join("")
+    : "<li class='muted'>決済履歴はありません。</li>";
+};
+
+const renderDMs = () => {
+  const list = getJSON(DM_STORAGE_KEY);
+  dmList.innerHTML = list.length
+    ? list.map((item) => `<li class="booking-item"><p>[${item.sentAt}] ${item.senderRole} → ${item.targetName}</p><p>${item.message}</p></li>`).join("")
+    : "<li class='muted'>DM履歴はありません。</li>";
 };
 
 bookingForm.addEventListener("submit", (event) => {
@@ -393,6 +417,76 @@ calendarForm.addEventListener("submit", (event) => {
   saveJSON(CALENDAR_STORAGE_KEY, list);
   calendarForm.reset();
   renderCalendar();
+renderPayments();
+renderDMs();
+});
+
+
+paymentForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const formData = new FormData(paymentForm);
+  const payment = {
+    customerEmail: formData.get("customerEmail")?.toString().trim(),
+    paymentType: formData.get("paymentType")?.toString(),
+    amount: Number(formData.get("amount")?.toString()),
+    status: "処理中",
+    createdAt: new Date().toLocaleString("ja-JP")
+  };
+
+  if (!payment.customerEmail || !payment.paymentType || !payment.amount) {
+    paymentMessage.textContent = "決済情報を入力してください。";
+    return;
+  }
+
+  const stripePublicKey = window.INKLINK_STRIPE_PUBLIC_KEY || "";
+
+  if (window.Stripe && stripePublicKey) {
+    paymentMessage.textContent = "Stripe Checkoutへ遷移します...";
+    const stripe = window.Stripe(stripePublicKey);
+    await stripe.redirectToCheckout({
+      lineItems: [{
+        price_data: {
+          currency: "jpy",
+          product_data: { name: `${payment.paymentType} / Ink Link` },
+          unit_amount: payment.amount
+        },
+        quantity: 1
+      }],
+      mode: "payment",
+      successUrl: window.location.href,
+      cancelUrl: window.location.href
+    });
+  } else {
+    payment.status = "デモ決済完了";
+    paymentMessage.textContent = "Stripe公開鍵未設定のため、デモ決済として保存しました。";
+  }
+
+  const list = getJSON(PAYMENT_STORAGE_KEY);
+  list.unshift(payment);
+  saveJSON(PAYMENT_STORAGE_KEY, list);
+  paymentForm.reset();
+  renderPayments();
+});
+
+dmForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(dmForm);
+  const dm = {
+    senderRole: formData.get("senderRole")?.toString(),
+    targetName: formData.get("targetName")?.toString().trim(),
+    message: formData.get("message")?.toString().trim(),
+    sentAt: new Date().toLocaleString("ja-JP")
+  };
+
+  if (!dm.senderRole || !dm.targetName || !dm.message) {
+    return;
+  }
+
+  const list = getJSON(DM_STORAGE_KEY);
+  list.unshift(dm);
+  saveJSON(DM_STORAGE_KEY, list);
+  dmForm.reset();
+  renderDMs();
 });
 
 styleCategorySelect.addEventListener("change", updateStyleDetails);
@@ -405,3 +499,5 @@ renderTomorrowCustomers();
 renderBlacklist();
 renderFlash();
 renderCalendar();
+renderPayments();
+renderDMs();
